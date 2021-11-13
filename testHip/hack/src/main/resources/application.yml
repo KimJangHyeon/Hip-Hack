@@ -1,0 +1,7 @@
+spring:
+  mock: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: hack1234
+    jdbc-url: jdbc:mysql://localhost:3306/HACK_DB?autoReconnect=true
