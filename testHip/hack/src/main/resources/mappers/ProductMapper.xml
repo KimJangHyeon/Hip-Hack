@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hip.hack.dao.ProductMapper">
+    <insert id="createProduct" parameterType="com.hip.hack.model.entity.Product" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO PRODUCT (package_id, explaination, image_path, user_name)
+        VALUES (#{packageId}, #{explaination}, #{imagePath}, #{userName})
+    </insert>
+    <select id="findByPackageProduct" resultType="com.hip.hack.model.entity.Product">
+        SELECT * FROM PRODUCT WHERE package_id=#{0};
+    </select>
+
+    <select id="findByIdProduct" resultType="com.hip.hack.model.entity.Product">
+        SELECT * FROM PRODUCT WHERE id=#{0};
+    </select>
+
+
+    <update id="updatePriceAndName" parameterType="com.hip.hack.model.entity.Product">
+        UPDATE PRODUCT
+        SET user_name =#{userName}, price = #{price}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM PRODUCT WHERE id = #{id}
+    </delete>
+</mapper>

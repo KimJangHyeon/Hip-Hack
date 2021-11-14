@@ -2,6 +2,8 @@ package com.hip.hack.controller;
 
 import com.hip.hack.model.dto.PackageDTO;
 import com.hip.hack.model.dto.ProductDTO;
+import com.hip.hack.service.PackageService;
+import com.hip.hack.service.ProductService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,30 +11,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class HackController {
+public class PackageController {
     @Value("${spring.mock}")
     private boolean mock;
+    private PackageService packageService;
+    private ProductService productService;
+
+    public PackageController(PackageService packageService, ProductService productService) {
+        this.packageService = packageService;
+        this.productService = productService;
+    }
+
 
     @GetMapping("/list")
-    public List<PackageDTO> ProductPackageList() {
+    public List<PackageDTO> productPackageList() {
         if (mock) {
             List<PackageDTO> packageDTOS = new ArrayList<>();
-            for (int i = 0; i < 100000; i++) {
-                List<ProductDTO> products = new ArrayList<>();
-                for (int j = 0; j < 5; j++) {
-                    products.add(ProductDTO.builder().imagePath("/image/imagepath" + j + ".jpg").build());
-                }
+            for (int i = 0; i < 10000; i++) {
                 PackageDTO packageDTO = PackageDTO.builder()
                         .id(i)
                         .title("제목" + i)
-                        .productDTOS(products)
                         .totalPrice(i * 10000)
                         .build();
                 packageDTOS.add(packageDTO);
             }
             return packageDTOS;
         }
-        return null;
+        return packageService.packageList();
     }
 
     @GetMapping("/package")
@@ -54,25 +59,21 @@ public class HackController {
                     .build();
 
         }
-        return null;
-    }
-
-    @PutMapping("/product/{id}/{price}")
-    public String updateProductPrice(@PathVariable int id, @PathVariable int price) {
-        // 상품의 가격 설정
-        // 패키지의 가격 업데이트
-        // 패키지 전체 가격
-        if (price > 10000) {
-            return "package deleted";
-        }
-        else {
-            return "update success";
-        }
+        return packageService.packageDetail(packageId);
     }
 
     @PostMapping("/package")
-    public PackageDTO postPackageDetail(@RequestBody PackageDTO packageDTO) {
-        return null;
+    public boolean postPackageDetail(@RequestBody PackageDTO packageDTO) {
+        return packageService.postPackageDetail(packageDTO);
     }
+
+    @PutMapping("/product/{id}/{price}/{name}")
+    public Boolean updateProductPrice(@PathVariable int id, @PathVariable int price, @PathVariable String name) {
+        // 상품의 가격 설정
+        // 패키지의 가격 업데이트
+        // 패키지 전체 가격
+        return productService.updatePriceAndName(id, price, name);
+    }
+
 
 }

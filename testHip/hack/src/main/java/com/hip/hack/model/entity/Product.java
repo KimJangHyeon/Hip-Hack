@@ -1,17 +1,20 @@
 package com.hip.hack.model.entity;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 
 @Data
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Product {
     @Id
     private Integer id;
-    private String explanation;
+    private Boolean representation;
+    private Integer packageId;
+    private String explaination;
     private String imagePath;
-    private String price;
+    private Integer price;
+    private String userName;
 }

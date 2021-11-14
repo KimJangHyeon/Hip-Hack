@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hip.hack.dao.PackageMapper">
+    <insert id="create" parameterType="com.hip.hack.dao.PackageMapper" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO PACKAGE(title, max_account)
+        VALUES(#{title}, #{maxAccount});
+    </insert>
+    <select id="findAllPackage" resultType="MAP">
+        SELECT * FROM PACKAGE;
+    </select>
+    <select id="findAllPackageTest" resultType="Integer">
+        SELECT max_account FROM PACKAGE;
+    </select>
+    <select id="findById" resultType="MAP">
+        SELECT * FROM PACKAGE WHERE id = #{0}
+    </select>
+    <update id="updateRepresentationId" parameterType="com.hip.hack.model.entity.ProductPackage">
+        UPDATE PACKAGE
+        SET representation_id=#{representationId}
+        WHERE id = #{id}
+    </update>
+</mapper>
